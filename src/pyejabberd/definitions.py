@@ -142,6 +142,15 @@ class DestroyRoom(API):
         return response.get('res') == 0
 
 
+class SendDirectInvitation(API):
+    method = 'send_direct_invitation'
+    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('password'), 
+        StringArgument('password'), StringArgument('reason'), StringArgument('users')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
 class GetRoomOptions(API):
     method = 'get_room_options'
     arguments = [StringArgument('name'), StringArgument('service')]
