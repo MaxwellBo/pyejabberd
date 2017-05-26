@@ -299,6 +299,34 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.DestroyRoom, name=name, service=service, host=host)
 
+    def send_direct_invitation(self, name, service, password=None, reason=None, users=[]):
+        """
+        Send a direct invitation to several JIDs
+        :param name: The name for the room
+        :type name: str|unicode
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str|unicode
+        :param password: The password for the room
+        :type password: str|unicode or None
+        :param reason: The reason for inviting the users to the channel
+        :type reason: str|unicode or None
+        :param users: The Users JIDs to send invitations to
+        :type users: list
+        :rtype: bool
+        :return: A boolean indicating whether the users have been invited successfully
+        """
+        users_ = ":".join([str(i) for i in users])
+
+        if password is None:
+            password = "none"
+        
+        if reason is None:
+            reason = "none"
+
+        return self._call_api(definitions.SendDirectInvitation, 
+                              name=name, service=service, password=password, 
+                              reason=reason, users=users_)
+
     def get_room_options(self, name, service):
         """
         Get options from a MUC room
